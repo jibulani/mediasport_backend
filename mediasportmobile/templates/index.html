@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+	<h1 class="page-title"> Последняя статистика </h1>
+        <!-- END PAGE TITLE-->
+        <!-- END PAGE HEADER-->
+	<div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN ROW -->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- BEGIN CHART PORTLET-->
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="icon-bar-chart font-green-haze"></i>
+                                    <span class="caption-subject bold uppercase font-green-haze"> Забитые мячи </span>   
+                                </div>
+                             
+                            </div>
+                            <div class="portlet-body">
+                                <div id="chart_1" class="chart" style="height: 400px;"> </div>
+                                <div class="well margin-top-20">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label class="text-left">Радиус:</label>
+                                            <input class="chart_1_chart_input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01" /> </div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left">Наклон:</label>
+                                            <input class="chart_1_chart_input" data-property="angle" type="range" min="0" max="89" value="30" step="1" /> </div>
+                                        <div class="col-sm-3">
+                                            <label class="text-left">Глубина:</label>
+                                            <input class="chart_1_chart_input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1" /> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- END CHART PORTLET-->
+                </div>
+            </div>
+            <!-- END ROW -->
+                         
+        </div>
+	</div>
+{% endblock %}
+{% block scripts %}
+	<script>
+		window.diagrammColors = ["#FF0F00", "#FF6600", "#FF9E01", "#FCD202", "#F8FF01", "#B0DE09", "#04D215", "#0D8ECF", "#0D52D1", "#2A0CD0", "#8A0CCF", "#CD0D74", "#754DEB"];
+		window.dataChart1 = [];
+	</script>
+	
+	{% for league in leagues %}
+		<script>
+			if (window.diagrammColors != []) {
+				var color = window.diagrammColors.pop();
+				var leagueData1 = {
+					"league": "{{league.name}}",
+					"goals": Number("{{league.goals}}"),
+					"color": color
+				};
+				
+				window.dataChart1.push(leagueData1);
+			}
+			
+		</script>
+	{% endfor %}
+	
+	<script src="{% static 'assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/scripts/datatable.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/datatables/datatables.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js' %}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="{% static 'assets/global/scripts/app.min.js' %}" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{% static 'assets/global/plugins/amcharts/amcharts/amcharts.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/amcharts/serial.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/amcharts/pie.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/amcharts/radar.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/amcharts/themes/light.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/amcharts/themes/patterns.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/amcharts/themes/chalk.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/ammap/ammap.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/ammap/maps/js/worldLow.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/amcharts/amstockcharts/amstock.js' %}" type="text/javascript"></script>
+	<script src="{% static 'assets/custom/scripts/home-charts.js' %}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+{% endblock %}

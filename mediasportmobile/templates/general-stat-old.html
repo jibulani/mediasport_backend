@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block links %}
+	
+{% endblock %}
+{% block content %}
+	
+	<div class="row">
+        <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+		
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-settings font-red"></i>
+                        <span class="caption-subject font-red sbold uppercase">Общая статистика</span>
+                    </div>
+                    
+                </div>
+                <div class="portlet-body">
+					<div class="portlet box red">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Вратари </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"> </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th> Команда </th>
+                                            <th> Голы </th>
+                                            <th> Передачи </th>
+                                            <th> Гол + Пас </th>
+                                            <th> ЖК </th>
+											<th> КК </th>
+											<th> Пропущенные </th>
+											<th> Удары </th>
+											<th> Отбито (%) </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										{% for row in goalkeepers_team %}
+                                        <tr>
+                                            <td> {{row.team}} </td>
+                                            <td> {{row.goals}} </td>
+                                            <td> {{row.passes}} </td>
+                                            <td> {{row.goals_passes}} </td>
+                                            <td> {{row.yellow_cards}} </td>
+											<td> {{row.red_cards}} </td>
+											<td> {{row.missed_goals}} </td>
+											<td> {{row.shots_on_target}} </td>
+											<td> {{row.beat_off_shots}} </td>
+                                        </tr>
+										{% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Полевые игроки </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"> </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th> Команда </th>
+                                            <th> Голы </th>
+                                            <th> Передачи </th>
+                                            <th> Гол + Пас </th>
+                                            <th> Фол+ </th>
+											<th> Фол- </th>
+											<th> Др+ </th>
+											<th> Др- </th>
+											<th> Потери </th>
+											<th> Перехваты </th>
+											<th> В створ </th>
+											<th> Мимо </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										{% for row in field_players_team %}
+                                        <tr>
+                                            <td> {{row.team}} </td>
+                                            <td> {{row.goals}} </td>
+                                            <td> {{row.passes}} </td>
+                                            <td> {{row.goals_passes}} </td>
+                                            <td> {{row.foul_plus}} </td>
+											<td> {{row.foul_minus}} </td>
+											<td> {{row.dr_plus}} </td>
+											<td> {{row.dr_minus}} </td>
+											<td> {{row.lost_ball}} </td>
+											<td> {{row.interceptions}} </td>
+											<td> {{row.in_target}} </td>
+											<td> {{row.out_target}} </td>
+                                        </tr>
+										{% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+	<script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/jquery.blockui.min.js" type="text/javascript' %}"></script>
+    <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}" type="text/javascript"></script>
+	<script src="{% static 'assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/scripts/datatable.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/datatables/datatables.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js' %}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="{% static 'assets/global/scripts/app.min.js' %}" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{% static 'assets/custom/scripts/teams-table.js' %}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block links %}
+	
+{% endblock %}
+{% block content %}
+	
+	<div class="row">
+        <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+		
+            <div class="portlet light portlet-fit bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-settings font-red"></i>
+                        <span class="caption-subject font-red sbold uppercase">Статистика игроков</span>
+                    </div>
+                    
+                </div>
+                <div class="portlet-body">
+					<form role="form" action="{% url 'stat_players' %}" method="post">
+						<div class="form-group portlet-body form">
+							{% csrf_token %}
+							<div class="row">
+								<div class="col-lg-1">
+									<table cellspacing="10" cellpadding="5">
+										{{form.as_table}}
+									</table>
+									{% for error in field.errors %}
+										<p>{{ error }}</p>
+									{% endfor %}
+									<p></p>
+								</div>
+								<div class="col-lg-offset-1 col-lg-10">
+								<button class="btn btn-primary" type="submit">Отчет</button>
+								</div>
+							</div>
+							
+						</div>
+					</form>
+					<div class="portlet box red">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Вратари </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"> </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th> ФИО </th>
+                                            <th> Амплуа </th>
+                                            <th> Голы </th>
+                                            <th> Передачи </th>
+                                            <th> Гол + Пас </th>
+                                            <th> Пропущенные </th>
+                                            <th> ЖК </th>
+											<th> КК </th>
+											<th> Игры </th>
+											<th> Минуты </th>
+											<th> Мин/Пропущенные </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										{% for row in goalkeepers %}
+                                        <tr>
+                                            <td> {{row.name}} </td>
+                                            <td> {{row.position}} </td>
+                                            <td> {{row.goals}} </td>
+                                            <td> {{row.passes}} </td>
+                                            <td> {{row.goal_pass}} </td>
+                                            <td> {{row.missed_goals}} </td>
+                                            <td> {{row.yellow_cards}} </td>
+											<td> {{row.red_cards}} </td>
+											<td> {{row.games}} </td>
+											<td> {{row.mins}} </td>
+											<td> {{row.min_missed}} </td>
+                                        </tr>
+										{% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Полевые игроки </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"> </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th> ФИО </th>
+                                            <th> Амплуа </th>
+                                            <th> Голы </th>
+                                            <th> Передачи </th>
+                                            <th> Гол + Пас </th>
+                                            <th> ЖК </th>
+											<th> КК </th>
+											<th> Игры </th>
+											<th> Минуты </th>
+											<th> Мин/Голы </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										{% for row in players %}
+                                        <tr>
+                                            <td> {{row.name}} </td>
+                                            <td> {{row.position}} </td>
+                                            <td> {{row.goals}} </td>
+                                            <td> {{row.passes}} </td>
+                                            <td> {{row.goal_pass}} </td>
+                                            <td> {{row.yellow_cards}} </td>
+											<td> {{row.red_cards}} </td>
+											<td> {{row.games}} </td>
+											<td> {{row.mins}} </td>
+											<td> {{row.min_goal}} </td>
+                                        </tr>
+										{% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+	<script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/jquery.blockui.min.js" type="text/javascript' %}"></script>
+    <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}" type="text/javascript"></script>
+	<script src="{% static 'assets/global/plugins/bootstrap-confirmation/bootstrap-confirmation.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/scripts/datatable.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/datatables/datatables.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js' %}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="{% static 'assets/global/scripts/app.min.js' %}" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{% static 'assets/custom/scripts/teams-table.js' %}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+{% endblock %}

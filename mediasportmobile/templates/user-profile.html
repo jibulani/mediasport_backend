@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block links %}
+
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <!--<link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/global/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css' %}" rel="stylesheet" type="text/css" />-->
+
+    <link href="{% static 'assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL STYLES -->
+    <!--<link href="{% static 'assets/global/css/components-rounded.min.css' %}" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />-->
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="{% static 'assets/pages/css/profile.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+    <!--<link href="{% static 'assets/layouts/layout/css/layout.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/layouts/layout/css/themes/darkblue.min.css' %}" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="{% static 'assets/layouts/layout/css/custom.min.css' %}" rel="stylesheet" type="text/css" />-->
+
+{% endblock %}
+
+{% block content %}
+    
+    <h1 class="page-title"> Информация о пользователе аккаунта
+    </h1>
+    <div class="row">
+        <div class="col-md-12">
+        <!-- BEGIN PROFILE SIDEBAR -->
+            <div class="profile-sidebar">
+            <!-- PORTLET MAIN -->
+                <div class="portlet light profile-sidebar-portlet ">
+                <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img src="{% static 'assets/pages/img/logo-big.jpg' %}"  class="img-responsive" alt=""> </div>
+                    <!-- END SIDEBAR USERPIC --><!--src="{% static 'assets/pages/media/profile/profile_user.jpg' %}"-->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle" style="padding-bottom: 10px !important;">
+                        <div class="profile-usertitle-name"> {{user.first_name}} {{user.last_name}} </div>
+						{% if user.role == 'admin' %}
+							<div class="profile-usertitle-job"> Администратор </div>
+						{% elif user.role == 'manager' %}
+							<div class="profile-usertitle-job"> Менеджер </div>
+						{% else %}
+							<div class="profile-usertitle-job"> Пользователь </div>
+						{% endif %}
+                    </div>
+                                        
+                </div>
+                                   
+            </div>
+                                <!-- END BEGIN PROFILE SIDEBAR -->
+                                <!-- BEGIN PROFILE CONTENT -->
+            <div class="profile-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet light ">
+                            <div class="portlet-title tabbable-line">
+                                <div class="caption caption-md">
+                                    <i class="icon-globe theme-font hide"></i>
+                                    <span class="caption-subject font-blue-madison bold uppercase">Профиль</span>
+                                </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#tab_1_1" data-toggle="tab">Персональная информация</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_1_3" data-toggle="tab">Изменение пароля</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="tab-content">
+                                <!-- PERSONAL INFO TAB -->
+								{% if info != '' %}
+								<div class="note note-info" style="margin-bottom: 0px !important;">
+                                    <h5 style="margin-bottom: 0px !important;">{{info}}</h5>
+                                </div>
+								{% endif %}
+								{% if bad_info != '' %}
+								<div class="note note-danger" style="margin-bottom: 0px !important;">
+                                    <h5 style="margin-bottom: 0px !important;">{{bad_info}}</h5>
+                                </div>
+								{% endif %}
+								<br/>
+                                    <div class="tab-pane active" id="tab_1_1">
+                                        <form role="form" action="{% url 'user_edit_profile'%}" method="post">
+										{% csrf_token %}
+											<div class="form-group">
+                                                <label class="control-label">Логин</label>
+                                                <input type="text" placeholder="{{user.username}}" class="form-control" name="username"/> </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Имя</label>
+                                                <input type="text" placeholder="{{user.first_name}}" class="form-control" name="first_name"/> </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Фамилия</label>
+                                                <input type="text" placeholder="{{user.last_name}}" class="form-control" name="last_name"/> </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Мобильный номер</label>
+                                                <input type="text" placeholder="{{user.phone_number}}" class="form-control" name="phone_number"/> </div>
+											<div class="form-group">
+                                                <label class="control-label">Электронная почта</label>
+                                                <input type="text" placeholder="{{user.email}}" class="form-control" name="email"/> </div>
+                                            <div class="margiv-top-10">
+                                                <button type="submit" class="btn green"> Сохранить изменения </button>
+                                               
+                                            </div>
+                                        </form>
+                                    </div>
+                                                        <!-- CHANGE PASSWORD TAB -->
+                                    <div class="tab-pane" id="tab_1_3">
+                                        <form action="{% url 'user_profile'%}" method="post">
+										{% csrf_token %}
+                                            <div class="form-group">
+                                                <label class="control-label">Текущий пароль</label>
+                                                <input type="password" class="form-control" name="password"/> </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Новый пароль</label>
+                                                <input type="password" class="form-control" name="new_password"/> </div>
+                                            <div class="form-group">
+                                                <label class="control-label">Подтверждение нового пароля</label>
+                                                <input type="password" class="form-control" name="password_confirmation"/> </div>
+                                            <div class="margin-top-10">
+												<button type="submit" class="btn green">Изменить пароль</button>
+												
+                                            </div>
+                                        </form>
+                                    </div>
+									
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END PROFILE CONTENT -->
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+        <!--<script src="{% static 'assets/global/plugins/jquery.min.js' %" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/js.cookie.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery.blockui.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}" type="text/javascript"></script>-->
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="{% static 'assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js' %}" type="text/javascript"></script>
+        <!--<script src="{% static 'assets/global/plugins/jquery.sparkline.min.js' %}" type="text/javascript"></script>-->
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <!--<script src="{% static 'assets/global/scripts/app.min.js' %}" type="text/javascript"></script>-->
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="{% static 'assets/pages/scripts/profile.min.js' %}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <!--<script src="{% static 'assets/layouts/layout/scripts/layout.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/layout/scripts/demo.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/global/scripts/quick-sidebar.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/global/scripts/quick-nav.min.js' %}" type="text/javascript"></script>-->
+        <!-- END THEME LAYOUT SCRIPTS -->
+{% endblock %}
